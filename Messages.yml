@@ -1,0 +1,48 @@
+#Config Version 1 by Yukun
+#Placeholders:
+#- %player% for player's display name
+#- %rank% for rank name with colour codes
+#- %amount% for amount of items received.
+Messages:
+  #prefix before all messages
+  Prefix: '&bRank&eQuests&f >> &7'
+  #Message sent when player receives a quest item. (usable placeholders: %rank%, %player%, %amount%)
+  QuestReceive: '&7You have received %amount% %rank% &bQuest Item(s)&7.'
+  #Message sent when player receives a voucher. (usable placeholders: %rank%, %player%, %amount%)
+  VoucherReceive: '&7You have received %amount% %rank% &bVoucher(s)&7.'
+  #Message sent if player tries to start more than 1 rankquest.
+  OnlyStart1: '&cYou may only do 1 &bRank Quest&c at a time.'
+  #Message sent if player has more than 1 rankquest in hand.
+  Only1RankQuest: '&cPlease unstack your &bRank Quest Item&c!'
+  #Message sent when voucher is used. (usable placeholders: %rank%)
+  VoucherUse: 'You have used a %rank% &bVoucher&7!'
+  #Message sent if inventory is full when giving a Voucher.
+  VoucherInventoryFull: '&cYour inventory is full!'
+  #Message sent if inventory is full when giving a RankQuest.
+  QuestInventoryFull: '&cYour inventory is full! Please empty out a slot, then use /rankquest redeem!'
+  #Message sent if player is not in warzone when starting quest.
+  NotInWarzone: '&cYou need to be in Warzone to use this item!'
+  #Message sent if player tries to move quest item in his inventory while doing the quest.
+  NoMovingQuest: '&cYou may not move the quest item around in your inventory while the quest is ongoing!'
+  #Message sent if player tries to drop the quest item while doing the quest.
+  DropItemMessage: '&cYou may not drop the quest item while the quest is ongoing!'
+  #Message sent to the player that starts the quest.(usable placeholders: %rank%, %player%)
+  BeginMessage:
+    - ''
+    - '&b&l*** &l%rank% &b&lQUEST STARTED ***'
+    - '&7You have started a %rank% &bQuest&7! Survive until the'
+    - '&7timer on your &bRank Quest Item &7reaches &c<0s> &7to claim your'
+    - '%rank% &bVoucher&7!'
+    - ''
+  #Message broadcast to all other players when quest starts. (usable placeholders: %rank%, %player%)
+  BeginAllMessage:
+    - ''
+    - '&b&l*** &l%rank% &b&lQUEST STARTED BY %player%***'
+    - '&7%player% has started a %rank% &bQuest&7! Find him/her in the'
+    - '&c&lWARZONE&r&7 before the &bRank Quest Item &7reaches &c<0s> to have a'
+    - '&7shot at getting his %rank% &bQuest Item&7!'
+    - ''
+  #Message sent to the player when quest is completed. (usable placeholders: %rank%, %player%)
+  QuestComplete: '&aYou have completed a %rank% quest! Congratulations!'
+  #Message broadcast to all other players when quest is completed. (usable placeholders: %rank%, %player%)
+  QuestAllComplete: '&a%player% has completed a %rank% &bRank Quest&a! Congratulations!'

@@ -1,0 +1,85 @@
+#Config Version 2 by Yukun
+#Placeholders:
+#- %player% for player's display name -- usable in quest item lores and names, and messages for beginning and completing the quest.
+#- %rank% for rank name with colour codes -- usable in quest item lores and names, and messages for beginning and completing the quest.
+#- %time% for time left on the quest item -- usable in CdName.
+RankQuestOptions:
+  ###########################
+  # Region checking options #
+  ###########################
+  CheckWarzone: 'true'
+  CheckWorldGuard: 'true'
+  CheckBlacklist: 'true'
+  WarzoneName: 'Warzone'
+  PvPFlag: 'false'
+  Regions:
+    - 'pvp'
+    - 'warzone'
+  RegionBlacklist:
+    - 'safezone'
+    - 'spawn'
+
+  ######################
+  # Quest item options #
+  ######################
+  #Item type of quest. Please use bukkit item names for this.
+  QuestItemType: 'MAGMA_CREAM'
+  #Name of item to start quest.
+  Name: '%rank% &bQuest &7(Right Click)'
+  #Lore to be added to the quest item that is given to the player. (usable placeholders: %rank%, %player%)
+  Lore:
+    - '&7Survive in the &cWarzone &7long enough'
+    - '&7to complete this Rank Quest and'
+    - '&7receive a %rank% &bRank.'
+    - ''
+    - '&f&lUSE: &r&7To begin this rank quest,'
+    - '&f&lright-click &r&7this item inside the &cWarzone&7.'
+    - '&7You must survive until the quest timer'
+    - '&7runs out to receive your %rank% &bRank.'
+    - ''
+    - '&c&lWARNING: &r&7If you leave the &cWarzone&7'
+    - '&7at any time, the quest timer resets.'
+
+  ##########################
+  # Countdown item options #
+  ##########################
+  #Name of item while doing quest. (usable placeholders: %time%, %rank%, %player%)
+  CdName: '%rank% &bQuest <%time%s>'
+  #Lore for item while it is counting down. (usable placeholders: %rank%, %player%)
+  CdLore:
+    - '&b&lRank Quest Started!'
+    - '&7Survive in the &cWarzone&7 long enough'
+    - '&7to complete this Rank Quest and'
+    - '&7receive a %rank% &bRank Voucher!'
+    - ''
+    - '&7You must survive until the quest timer'
+    - '&7runs out to receive your %rank% &bRank.'
+    - ''
+    - '&c&lWARNING: &r&7If you leave the &cWarzone&7'
+    - '&7at any time, the quest timer resets.'
+  ############################
+  # Rank and voucher options #
+  ############################
+  #List your ranks under this.
+  Ranks:
+    VIP:
+      #Used for %rank% placeholder.
+      RankName: '&fVIP'
+      #Time of the quest in seconds.
+      Time: '30'
+      #Settings for rank voucher.
+      Voucher:
+        #item name for rank voucher (usable placeholders: %rank%)
+        Name: '&b&lRANK &e"&l%rank%&r&e" &7(Right Click)'
+        #Number of vouchers given to the player when quest is completed.
+        Amount: '1'
+        #The item you want to use as the Voucher. Please use bukkit item names for this.
+        VoucherItemType: 'PAPER'
+        #Commands to run when voucher is clicked. Make sure this is a console compatible command!
+        Commands:
+          - 'manuadd %player% VIP'
+        Lore: #Lore to be added to the voucher item (usable placeholders: %rank%, %player%)
+          - '&7Use this item to'
+          - '&7get the &fVIP Rank'
+          - '&7on the &cFactions &7server!'
+          - '&7Given to: %player%'
