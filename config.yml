@@ -4,6 +4,12 @@
 #- %rank% for rank name with colour codes -- usable in quest item lores and names, and messages for beginning and completing the quest.
 #- %time% for time left on the quest item -- usable in CdName.
 RankQuestOptions:
+  ###################
+  # General Options #
+  ###################
+  #Whether to combat tag the player. (Requires CombatTagPlus)
+  TagPlayer: 'false'
+
   ###########################
   # Region checking options #
   ###########################
@@ -22,7 +28,7 @@ RankQuestOptions:
   ######################
   # Quest item options #
   ######################
-  #Item type of quest. Please use bukkit item names for this.
+  #Item type of quest item. Please use bukkit item names for this.
   QuestItemType: 'MAGMA_CREAM'
   #Name of item to start quest.
   Name: '%rank% &bQuest &7(Right Click)'
@@ -57,6 +63,7 @@ RankQuestOptions:
     - ''
     - '&c&lWARNING: &r&7If you leave the &cWarzone&7'
     - '&7at any time, the quest timer resets.'
+
   ############################
   # Rank and voucher options #
   ############################

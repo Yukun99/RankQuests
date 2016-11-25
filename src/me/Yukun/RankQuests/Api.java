@@ -21,6 +21,7 @@ import me.Yukun.RankQuests.MultiSupport.NMS_v1_8_R3;
 import me.Yukun.RankQuests.MultiSupport.NMS_v1_9_R1;
 import me.Yukun.RankQuests.MultiSupport.NMS_v1_9_R2;
 import me.Yukun.RankQuests.MultiSupport.WorldGuard;
+import net.minelink.ctplus.CombatTagPlus;
 
 public class Api {
 	public static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("RankQuests");
@@ -30,6 +31,30 @@ public class Api {
 		this.plugin = plugin;
 	}
 
+	public static Boolean isTagged(Player player) {
+		if (Bukkit.getPluginManager().getPlugin("CombatTagPlus") != null) {
+			CombatTagPlus ct = CombatTagPlus.getPlugin(CombatTagPlus.class);
+			if (ct.getTagManager().isTagged(player.getUniqueId())) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	public static void tagPlayer (Player player) {
+		if (Bukkit.getPluginManager().getPlugin("CombatTagPlus") != null) {
+			CombatTagPlus ct = CombatTagPlus.getPlugin(CombatTagPlus.class);
+			if (ct.getTagManager().isTagged(player.getUniqueId())) {
+				return;
+			} else {
+				ct.getTagManager().tag(player, player);
+			}
+		}
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static ItemStack getItemInHand(Player player) {
 		if (getVersion() >= 191) {

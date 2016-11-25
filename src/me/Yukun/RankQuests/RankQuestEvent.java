@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -36,19 +36,19 @@ public class RankQuestEvent implements Listener {
 	public static HashMap<Player, Integer> getCountDown() {
 		return CountDown;
 	}
-	
+
 	public static HashMap<Player, Boolean> getActive() {
 		return Active;
 	}
-	
+
 	public static HashMap<Player, String> getRank() {
 		return Rank;
 	}
-	
+
 	public static HashMap<Player, Integer> getSlot() {
 		return Slot;
 	}
-	
+
 	public static HashMap<Player, Integer> CountDown = new HashMap<Player, Integer>();
 	public static HashMap<Player, Boolean> Active = Main.getActive();
 	public static HashMap<Player, Integer> Slot = new HashMap<Player, Integer>();
@@ -79,44 +79,44 @@ public class RankQuestEvent implements Listener {
 		String only1RankQuest = Api.getMessageString("Messages.Only1RankQuest");
 		final String questitemtype = Api.getConfigString("RankQuestOptions.QuestItemType");
 		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			//player.sendMessage("1");
+			// player.sendMessage("1");
 			if (Api.getItemInHand(player) != null) {
-				//player.sendMessage("2");
+				// player.sendMessage("2");
 				final ItemStack item = Api.getItemInHand(player);
 				final Material itemtype = Material.getMaterial(questitemtype);
 				if (item.hasItemMeta()) {
-					//player.sendMessage("3");
+					// player.sendMessage("3");
 					if (item.getItemMeta().hasDisplayName() && item.getItemMeta().hasLore()) {
-						//player.sendMessage("4");
+						// player.sendMessage("4");
 						if (item.getType() == Material.getMaterial(questitemtype)) {
-							//player.sendMessage("5");
+							// player.sendMessage("5");
 							for (String ranks : Main.settings.getConfig()
 									.getConfigurationSection("RankQuestOptions.Ranks").getKeys(false)) {
-								//player.sendMessage("6");
+								// player.sendMessage("6");
 								String itemname = Api.color(Api
 										.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player, ranks));
 								rank = ranks;
 								if (Api.removeColor(itemname)
 										.contains(Api.removeColor(item.getItemMeta().getDisplayName()))) {
-									//player.sendMessage("7");
+									// player.sendMessage("7");
 									ArrayList<String> itemlore = new ArrayList<String>();
 									for (String line : Main.settings.getConfig()
 											.getStringList("RankQuestOptions.Lore")) {
 										itemlore.add(Api.color(Api.replacePHolders(line, player, rank)));
 									}
 									if (itemlore != null) {
-										//player.sendMessage("8");
+										// player.sendMessage("8");
 										ArrayList<String> heldlore = (ArrayList<String>) Api.getItemInHand(player)
 												.getItemMeta().getLore();
 										if (Api.removeColor(itemlore.get(0))
 												.equalsIgnoreCase(Api.removeColor(heldlore.get(0)))) {
-											//player.sendMessage("9");
+											// player.sendMessage("9");
 											String stime = Api
 													.getConfigString("RankQuestOptions.Ranks." + rank + ".Time");
 											if (Api.isInt(stime)) {
-												//player.sendMessage("10");
+												// player.sendMessage("10");
 												if (Api.isInWarzone(player)) {
-													//player.sendMessage("11");
+													// player.sendMessage("11");
 													if (item.getAmount() == 1) {
 														if (Active.get(player) == false) {
 															final int maxtime = Integer.parseInt(Api.getConfigString(
@@ -125,6 +125,15 @@ public class RankQuestEvent implements Listener {
 															Active.put(player, true);
 															Slot.put(player, player.getInventory().getHeldItemSlot());
 															Time.put(player, maxtime);
+															/* if (Api.getConfigString("RankQuestOptions.TagPlayer")
+																	.equalsIgnoreCase("true")) {
+																if (Bukkit.getPluginManager()
+																		.getPlugin("CombatTagPlus") != null) {
+																	PlayerCombatTagEvent event = new PlayerCombatTagEvent(
+																			player, player, maxtime * 1000);
+																	Bukkit.getPluginManager().callEvent(event);
+																}
+															} */
 															CountDown.put(player, Bukkit.getScheduler()
 																	.scheduleSyncRepeatingTask(plugin, new Runnable() {
 																		Player player = e.getPlayer();
@@ -456,6 +465,430 @@ public class RankQuestEvent implements Listener {
 						}
 					}
 				}
+			} else if (Api.getVersion() >= 191) {
+				if (player.getInventory().getItemInOffHand() != null) {
+					final ItemStack item = player.getInventory().getItemInOffHand();
+					final Material itemtype = Material.getMaterial(questitemtype);
+					if (item.hasItemMeta()) {
+						// player.sendMessage("3");
+						if (item.getItemMeta().hasDisplayName() && item.getItemMeta().hasLore()) {
+							// player.sendMessage("4");
+							if (item.getType() == Material.getMaterial(questitemtype)) {
+								// player.sendMessage("5");
+								for (String ranks : Main.settings.getConfig()
+										.getConfigurationSection("RankQuestOptions.Ranks").getKeys(false)) {
+									// player.sendMessage("6");
+									String itemname = Api.color(Api.replacePHolders(
+											Api.getConfigString("RankQuestOptions.Name"), player, ranks));
+									rank = ranks;
+									if (Api.removeColor(itemname)
+											.contains(Api.removeColor(item.getItemMeta().getDisplayName()))) {
+										// player.sendMessage("7");
+										ArrayList<String> itemlore = new ArrayList<String>();
+										for (String line : Main.settings.getConfig()
+												.getStringList("RankQuestOptions.Lore")) {
+											itemlore.add(Api.color(Api.replacePHolders(line, player, rank)));
+										}
+										if (itemlore != null) {
+											// player.sendMessage("8");
+											ArrayList<String> heldlore = (ArrayList<String>) Api.getItemInHand(player)
+													.getItemMeta().getLore();
+											if (Api.removeColor(itemlore.get(0))
+													.equalsIgnoreCase(Api.removeColor(heldlore.get(0)))) {
+												// player.sendMessage("9");
+												String stime = Api
+														.getConfigString("RankQuestOptions.Ranks." + rank + ".Time");
+												if (Api.isInt(stime)) {
+													// player.sendMessage("10");
+													if (Api.isInWarzone(player)) {
+														// player.sendMessage("11");
+														if (item.getAmount() == 1) {
+															if (Active.get(player) == false) {
+																final int maxtime = Integer.parseInt(
+																		Api.getConfigString("RankQuestOptions.Ranks."
+																				+ rank + ".Time"));
+																Rank.put(player, rank);
+																Active.put(player, true);
+																Slot.put(player,
+																		player.getInventory().getHeldItemSlot());
+																Time.put(player, maxtime);
+																/* if (Api.getConfigString("RankQuestOptions.TagPlayer")
+																		.equalsIgnoreCase("true")) {
+																	if (Bukkit.getPluginManager()
+																			.getPlugin("CombatTagPlus") != null) {
+																		PlayerCombatTagEvent event = new PlayerCombatTagEvent(
+																				player, player, maxtime * 1000);
+																		Bukkit.getPluginManager().callEvent(event);
+																	}
+																} */
+																CountDown.put(player,
+																		Bukkit.getScheduler().scheduleSyncRepeatingTask(
+																				plugin, new Runnable() {
+																					Player player = e.getPlayer();
+																					int slot = Slot.get(player);
+
+																					@Override
+																					public void run() {
+																						if (Active.get(player) != null
+																								&& Active.get(
+																										player) == true) {
+																							if (Api.isInWarzone(
+																									player)) {
+																								int time = Time
+																										.get(player);
+																								if (time == maxtime) {
+																									Time.put(player,
+																											(time - 1));
+																									String newname = "";
+																									ArrayList<String> dlore = new ArrayList<String>();
+																									ItemStack newitem = new ItemStack(
+																											itemtype,
+																											1);
+																									ItemMeta newmeta = newitem
+																											.getItemMeta();
+																									newname = Api
+																											.color(Api
+																													.replacePHolders(
+																															Api.getConfigString(
+																																	"RankQuestOptions.CdName"),
+																															player,
+																															Rank.get(
+																																	player))
+																													.replace(
+																															"%time%",
+																															Api.getConfigString(
+																																	"RankQuestOptions.Ranks."
+																																			+ Rank.get(
+																																					player)
+																																			+ ".Time")));
+																									for (String line : Main.settings
+																											.getConfig()
+																											.getStringList(
+																													"RankQuestOptions.CdLore")) {
+																										dlore.add(
+																												Api.color(
+																														Api.replacePHolders(
+																																line,
+																																player,
+																																Rank.get(
+																																		player))));
+																									}
+																									newmeta.setDisplayName(
+																											newname);
+																									newmeta.setLore(
+																											dlore);
+																									newitem.setItemMeta(
+																											newmeta);
+																									player.getInventory()
+																											.setItem(
+																													slot,
+																													newitem);
+																									for (String begin : queststart) {
+																										player.sendMessage(
+																												Api.color(
+																														Api.replacePHolders(
+																																begin,
+																																player,
+																																Rank.get(
+																																		player))));
+																									}
+																									for (Player online : Bukkit
+																											.getServer()
+																											.getOnlinePlayers()) {
+																										if (online != player) {
+																											for (String beginall : questallstart) {
+																												online.sendMessage(
+																														Api.color(
+																																Api.replacePHolders(
+																																		beginall,
+																																		player,
+																																		Rank.get(
+																																				player))));
+																											}
+																										}
+																									}
+																								}
+																								if (time > 0
+																										&& time < maxtime) {
+																									Time.put(player,
+																											(time - 1));
+																									ItemStack questitemold = new ItemStack(
+																											Material.getMaterial(
+																													questitemtype),
+																											1);
+																									ItemMeta questitemoldmeta = questitemold
+																											.getItemMeta();
+																									String questitemoldname = Api
+																											.color(Api
+																													.replacePHolders(
+																															Api.getConfigString(
+																																	"RankQuestOptions.CdName"),
+																															player,
+																															Rank.get(
+																																	player))
+																													.replace(
+																															"%time%",
+																															"" + (time
+																																	+ 1)));
+																									ArrayList<String> questitemoldlore = new ArrayList<String>();
+																									for (String line : Main.settings
+																											.getConfig()
+																											.getStringList(
+																													"RankQuestOptions.CdLore")) {
+																										questitemoldlore
+																												.add(Api.color(
+																														Api.replacePHolders(
+																																line,
+																																player,
+																																Rank.get(
+																																		player))));
+																									}
+																									questitemoldmeta
+																											.setDisplayName(
+																													questitemoldname);
+																									questitemoldmeta
+																											.setLore(
+																													questitemoldlore);
+																									questitemold
+																											.setItemMeta(
+																													questitemoldmeta);
+																									if (player
+																											.getInventory()
+																											.getItem(
+																													slot) != null) {
+																										ItemStack held = player
+																												.getInventory()
+																												.getItem(
+																														slot);
+																										String dcdname = Api
+																												.removeColor(
+																														held.getItemMeta()
+																																.getDisplayName());
+																										String dccname = Api
+																												.removeColor(
+																														questitemold
+																																.getItemMeta()
+																																.getDisplayName());
+																										List<String> dlore = held
+																												.getItemMeta()
+																												.getLore();
+																										List<String> clore = questitemold
+																												.getItemMeta()
+																												.getLore();
+																										ArrayList<String> dcdlore = new ArrayList<String>();
+																										ArrayList<String> dcclore = new ArrayList<String>();
+																										for (String line : dlore) {
+																											dcdlore.add(
+																													Api.removeColor(
+																															line));
+																										}
+																										for (String line : clore) {
+																											dcclore.add(
+																													Api.removeColor(
+																															line));
+																										}
+																										if (dcdname
+																												.equalsIgnoreCase(
+																														dccname)) {
+																											if (dcdlore
+																													.equals(dcclore)) {
+																												ItemStack questitemnew = new ItemStack(
+																														Material.getMaterial(
+																																questitemtype),
+																														1);
+																												ItemMeta questitemnewmeta = questitemnew
+																														.getItemMeta();
+																												String questitemnewname = Api
+																														.color(Api
+																																.replacePHolders(
+																																		Api.getConfigString(
+																																				"RankQuestOptions.CdName"),
+																																		player,
+																																		Rank.get(
+																																				player))
+																																.replace(
+																																		"%time%",
+																																		"" + (time)));
+																												ArrayList<String> questitemnewlore = new ArrayList<String>();
+																												for (String line : Main.settings
+																														.getConfig()
+																														.getStringList(
+																																"RankQuestOptions.CdLore")) {
+																													questitemnewlore
+																															.add(Api.color(
+																																	Api.replacePHolders(
+																																			line,
+																																			player,
+																																			Rank.get(
+																																					player))));
+																												}
+																												questitemnewmeta
+																														.setDisplayName(
+																																questitemnewname);
+																												questitemnewmeta
+																														.setLore(
+																																questitemnewlore);
+																												questitemnew
+																														.setItemMeta(
+																																questitemnewmeta);
+																												player.getInventory()
+																														.setItem(
+																																slot,
+																																questitemnew);
+																											}
+																										}
+																									}
+																								}
+																								if (time <= 0) {
+																									Bukkit.getScheduler()
+																											.cancelTask(
+																													CountDown
+																															.get(player));
+																									CountDown.remove(
+																											player);
+																									Active.put(player,
+																											false);
+																									Slot.remove(player);
+																									Time.remove(player);
+																									player.getInventory()
+																											.setItem(
+																													slot,
+																													new ItemStack(
+																															Material.AIR));
+																									if (Api.isInt(
+																											Api.getConfigString(
+																													"RankQuestOptions.Ranks."
+																															+ Rank.get(
+																																	player)
+																															+ ".Voucher.Amount"))) {
+																										int amount = Integer
+																												.parseInt(
+																														Api.getConfigString(
+																																"RankQuestOptions.Ranks."
+																																		+ Rank.get(
+																																				player)
+																																		+ ".Voucher.Amount"));
+																										if (amount > 0) {
+																											ItemStack voucher = new ItemStack(
+																													Material.getMaterial(
+																															Api.getConfigString(
+																																	"RankQuestOptions.Ranks."
+																																			+ Rank.get(
+																																					player)
+																																			+ ".Voucher.VoucherItemType")),
+																													amount);
+																											ItemMeta vouchermeta = voucher
+																													.getItemMeta();
+																											vouchermeta
+																													.setDisplayName(
+																															Api.color(
+																																	Api.replacePHolders(
+																																			Api.getConfigString(
+																																					"RankQuestOptions.Ranks."
+																																							+ Rank.get(
+																																									player)
+																																							+ ".Voucher.Name"),
+																																			player,
+																																			Rank.get(
+																																					player))));
+																											ArrayList<String> vlore = new ArrayList<String>();
+																											for (String line : Main.settings
+																													.getConfig()
+																													.getStringList(
+																															"RankQuestOptions.Ranks."
+																																	+ Rank.get(
+																																			player)
+																																	+ ".Voucher.Lore")) {
+																												vlore.add(
+																														Api.color(
+																																Api.replacePHolders(
+																																		line,
+																																		player,
+																																		Rank.get(
+																																				player))));
+																											}
+																											vouchermeta
+																													.setLore(
+																															vlore);
+																											voucher.setItemMeta(
+																													vouchermeta);
+																											if (voucher != null) {
+																												player.getInventory()
+																														.setItem(
+																																slot,
+																																voucher);
+																												player.sendMessage(
+																														Api.color(
+																																Api.replacePHolders(
+																																		prefix + questcomplete,
+																																		player,
+																																		Rank.get(
+																																				player))));
+																												for (Player players : Bukkit
+																														.getServer()
+																														.getOnlinePlayers()) {
+																													if (players != player) {
+																														players.sendMessage(
+																																Api.color(
+																																		Api.replacePHolders(
+																																				prefix + questallcomplete,
+																																				player,
+																																				Rank.get(
+																																						player))));
+																													}
+																												}
+																											}
+																										}
+																									}
+																								}
+																							} else if (!(Api
+																									.isInWarzone(
+																											player))) {
+																								player.getInventory()
+																										.setItem(slot,
+																												item);
+																								player.sendMessage(
+																										Api.color(prefix
+																												+ notInWarzone));
+																								Bukkit.getScheduler()
+																										.cancelTask(
+																												CountDown
+																														.get(player));
+																								CountDown
+																										.remove(player);
+																								Active.remove(player);
+																								Active.put(player,
+																										false);
+																								Slot.remove(player);
+																								Time.remove(player);
+																								return;
+																							}
+																						}
+																					}
+																				}, 0, 20));
+																return;
+															} else {
+																if (Active.get(player) == true) {
+																	player.sendMessage(Api.color(prefix + onlystart1));
+																}
+															}
+														} else {
+															player.sendMessage(Api.color(prefix + only1RankQuest));
+															return;
+														}
+													} else {
+														player.sendMessage(Api.color(prefix + notInWarzone));
+														return;
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -602,9 +1035,9 @@ public class RankQuestEvent implements Listener {
 	}
 
 	@EventHandler
-	public void playerDeathEvent(final EntityDeathEvent e) {
+	public void playerDeathEvent(final PlayerDeathEvent e) {
 		if (e.getEntity() != null && e.getEntity() instanceof Player) {
-			final Player player = (Player) e.getEntity();
+			final Player player = e.getEntity();
 			if (Active.get(player) != null && Active.get(player) == true) {
 				if (player != null) {
 					if (Rank.get(player) != null) {
@@ -635,6 +1068,7 @@ public class RankQuestEvent implements Listener {
 													dropMeta.setDisplayName(dname);
 													dropMeta.setLore(dlore);
 													drop.setItemMeta(dropMeta);
+													drop.setAmount(1);
 													Bukkit.getScheduler().cancelTask(CountDown.get(player));
 													CountDown.remove(player);
 													Active.put(player, false);
