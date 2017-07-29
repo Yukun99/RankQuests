@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-1_10_R1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-api-1.10.2-R0.1-20161106.012206-93-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/FactionsUUID-1.6.9.5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/MassiveCore.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-1_9_R1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-1_9_R2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-1_10_R1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/Factions.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/worldedit-bukkit-6.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/worldguard-6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/CombatTagPlus.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/server.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-1_7_R4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-1_8_R1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-1_8_R3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/CombatTagPlus.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-1_9_R1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-1_9_R2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/spigot-1_11_R1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Yukunxu123/Downloads/plugins/uploaded/CombatTagPlus (1).jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -64,8 +64,11 @@ public class RankQuest implements CommandExecutor {
 														Api.getConfigString("RankQuestOptions.QuestItemType")),
 												redeems.get(ranks));
 										ItemMeta itemMeta = item.getItemMeta();
-										String dname = Api.color(Api.replacePHolders(
-												Api.getConfigString("RankQuestOptions.Name"), player, ranks));
+										String dname = Api.color(Api
+												.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player,
+														ranks)
+												.replace("%time%", Api
+														.getConfigString("RankQuestOptions.Ranks." + ranks + ".Time")));
 										ArrayList<String> lore = new ArrayList<String>();
 										for (String line : Main.settings.getConfig()
 												.getStringList("RankQuestOptions.Lore")) {
@@ -154,7 +157,9 @@ public class RankQuest implements CommandExecutor {
 										Material.getMaterial(Api.getConfigString("RankQuestOptions.QuestItemType")), 1);
 								ItemMeta itemMeta = item.getItemMeta();
 								String dname = Api.color(Api
-										.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player, rank));
+										.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player, rank)
+										.replace("%time%",
+												Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Time")));
 								ArrayList<String> dlore = new ArrayList<String>();
 								for (String line : Main.settings.getConfig().getStringList("RankQuestOptions.Lore")) {
 									dlore.add(Api.color(Api.replacePHolders(line, player, rank)));
@@ -192,13 +197,12 @@ public class RankQuest implements CommandExecutor {
 								}
 							} else if (args[1].equalsIgnoreCase(ranks + "Voucher")) {
 								rank = ranks + ".Voucher";
-								ItemStack item = new ItemStack(
-										Material.getMaterial(
-												Api.getConfigString("RankQuestOptions.Ranks." + rank + ".VoucherItemType")),
-										1);
+								ItemStack item = new ItemStack(Material.getMaterial(
+										Api.getConfigString("RankQuestOptions.Ranks." + rank + ".VoucherItemType")), 1);
 								ItemMeta itemMeta = item.getItemMeta();
 								String dname = Api.color(Api.replacePHolders(
-										Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Name"), player, ranks));
+										Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Name"), player,
+										ranks));
 								ArrayList<String> dlore = new ArrayList<String>();
 								for (String line : Main.settings.getConfig()
 										.getStringList("RankQuestOptions.Ranks." + rank + ".Lore")) {
@@ -258,8 +262,10 @@ public class RankQuest implements CommandExecutor {
 											Material.getMaterial(Api.getConfigString("RankQuestOptions.QuestItemType")),
 											1);
 									ItemMeta itemMeta = item.getItemMeta();
-									String dname = Api.color(Api.replacePHolders(
-											Api.getConfigString("RankQuestOptions.Name"), player, rank));
+									String dname = Api.color(Api
+											.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player, rank)
+											.replace("%time%",
+													Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Time")));
 									ArrayList<String> dlore = new ArrayList<String>();
 									for (String line : Main.settings.getConfig()
 											.getStringList("RankQuestOptions.Lore")) {
@@ -299,13 +305,13 @@ public class RankQuest implements CommandExecutor {
 									}
 								} else if (args[2].equalsIgnoreCase(ranks + "Voucher")) {
 									rank = ranks + ".Voucher";
-									ItemStack item = new ItemStack(
-											Material.getMaterial(Api
-													.getConfigString("RankQuestOptions.Ranks." + rank + ".VoucherItemType")),
+									ItemStack item = new ItemStack(Material.getMaterial(
+											Api.getConfigString("RankQuestOptions.Ranks." + rank + ".VoucherItemType")),
 											1);
 									ItemMeta itemMeta = item.getItemMeta();
 									String dname = Api.color(Api.replacePHolders(
-											Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Name"), player, ranks));
+											Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Name"), player,
+											ranks));
 									ArrayList<String> dlore = new ArrayList<String>();
 									for (String line : Main.settings.getConfig()
 											.getStringList("RankQuestOptions.Ranks." + rank + ".Lore")) {
@@ -361,7 +367,9 @@ public class RankQuest implements CommandExecutor {
 										Material.getMaterial(Api.getConfigString("RankQuestOptions.QuestItemType")), 1);
 								ItemMeta itemMeta = item.getItemMeta();
 								String dname = Api.color(Api
-										.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player, rank));
+										.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player, rank)
+										.replace("%time%",
+												Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Time")));
 								ArrayList<String> dlore = new ArrayList<String>();
 								for (String line : Main.settings.getConfig().getStringList("RankQuestOptions.Lore")) {
 									dlore.add(Api.color(Api.replacePHolders(line, player, rank)));
@@ -399,13 +407,12 @@ public class RankQuest implements CommandExecutor {
 								}
 							} else if (args[2].equalsIgnoreCase(ranks + "Voucher")) {
 								rank = ranks + ".Voucher";
-								ItemStack item = new ItemStack(
-										Material.getMaterial(
-												Api.getConfigString("RankQuestOptions.Ranks." + rank + ".VoucherItemType")),
-										1);
+								ItemStack item = new ItemStack(Material.getMaterial(
+										Api.getConfigString("RankQuestOptions.Ranks." + rank + ".VoucherItemType")), 1);
 								ItemMeta itemMeta = item.getItemMeta();
 								String dname = Api.color(Api.replacePHolders(
-										Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Name"), player, ranks));
+										Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Name"), player,
+										ranks));
 								ArrayList<String> dlore = new ArrayList<String>();
 								for (String line : Main.settings.getConfig()
 										.getStringList("RankQuestOptions.Ranks." + rank + ".Lore")) {
@@ -468,8 +475,11 @@ public class RankQuest implements CommandExecutor {
 															Api.getConfigString("RankQuestOptions.QuestItemType")),
 													amount);
 											ItemMeta itemMeta = item.getItemMeta();
-											String dname = Api.color(Api.replacePHolders(
-													Api.getConfigString("RankQuestOptions.Name"), player, ranks));
+											String dname = Api.color(Api
+													.replacePHolders(Api.getConfigString("RankQuestOptions.Name"),
+															player, ranks)
+													.replace("%time%", Api.getConfigString(
+															"RankQuestOptions.Ranks." + rank + ".Time")));
 											ArrayList<String> dlore = new ArrayList<String>();
 											for (String line : Main.settings.getConfig()
 													.getStringList("RankQuestOptions.Lore")) {
@@ -523,13 +533,14 @@ public class RankQuest implements CommandExecutor {
 										amount = Integer.parseInt(args[3]);
 										if (amount != 0 && amount <= 64) {
 											rank = ranks + ".Voucher";
-											ItemStack item = new ItemStack(Material.getMaterial(Api
-													.getConfigString("RankQuestOptions.Ranks." + rank + ".VoucherItemType")),
+											ItemStack item = new ItemStack(
+													Material.getMaterial(Api.getConfigString(
+															"RankQuestOptions.Ranks." + rank + ".VoucherItemType")),
 													amount);
 											ItemMeta itemMeta = item.getItemMeta();
 											String dname = Api.color(Api.replacePHolders(
-													Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Name"), player,
-													ranks));
+													Api.getConfigString("RankQuestOptions.Ranks." + rank + ".Name"),
+													player, ranks));
 											ArrayList<String> dlore = new ArrayList<String>();
 											for (String line : Main.settings.getConfig()
 													.getStringList("RankQuestOptions.Ranks." + rank + ".Lore")) {
@@ -590,8 +601,11 @@ public class RankQuest implements CommandExecutor {
 										ItemStack item = new ItemStack(Material.getMaterial(
 												Api.getConfigString("RankQuestOptions.QuestItemType")), amount);
 										ItemMeta itemMeta = item.getItemMeta();
-										String dname = Api.color(Api.replacePHolders(
-												Api.getConfigString("RankQuestOptions.Name"), player, ranks));
+										String dname = Api.color(Api
+												.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player,
+														ranks)
+												.replace("%time%", Api
+														.getConfigString("RankQuestOptions.Ranks." + rank + ".Time")));
 										ArrayList<String> dlore = new ArrayList<String>();
 										for (String line : Main.settings.getConfig()
 												.getStringList("RankQuestOptions.Lore")) {
@@ -638,8 +652,9 @@ public class RankQuest implements CommandExecutor {
 									amount = Integer.parseInt(args[3]);
 									if (amount != 0 && amount <= 64) {
 										rank = ranks + ".Voucher";
-										ItemStack item = new ItemStack(Material.getMaterial(
-												Api.getConfigString("RankQuestOptions.Ranks." + rank + ".VoucherItemType")),
+										ItemStack item = new ItemStack(
+												Material.getMaterial(Api.getConfigString(
+														"RankQuestOptions.Ranks." + rank + ".VoucherItemType")),
 												amount);
 										ItemMeta itemMeta = item.getItemMeta();
 										String dname = Api.color(Api.replacePHolders(

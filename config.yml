@@ -2,14 +2,8 @@
 #Placeholders:
 #- %player% for player's display name -- usable in quest item lores and names, and messages for beginning and completing the quest.
 #- %rank% for rank name with colour codes -- usable in quest item lores and names, and messages for beginning and completing the quest.
-#- %time% for time left on the quest item -- usable in CdName.
+#- %time% for time left on the quest item -- usable in CdName and quest item name.
 RankQuestOptions:
-  ###################
-  # General Options #
-  ###################
-  #Whether to combat tag the player. (Requires CombatTagPlus)
-  TagPlayer: 'false'
-
   ###########################
   # Region checking options #
   ###########################

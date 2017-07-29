@@ -94,7 +94,9 @@ public class RankQuestEvent implements Listener {
 									.getConfigurationSection("RankQuestOptions.Ranks").getKeys(false)) {
 								// player.sendMessage("6");
 								String itemname = Api.color(Api
-										.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player, ranks));
+										.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player, ranks)
+										.replace("%time%",
+												Api.getConfigString("RankQuestOptions.Ranks." + ranks + ".Time")));
 								rank = ranks;
 								if (Api.removeColor(itemname)
 										.contains(Api.removeColor(item.getItemMeta().getDisplayName()))) {
@@ -125,15 +127,27 @@ public class RankQuestEvent implements Listener {
 															Active.put(player, true);
 															Slot.put(player, player.getInventory().getHeldItemSlot());
 															Time.put(player, maxtime);
-															/* if (Api.getConfigString("RankQuestOptions.TagPlayer")
-																	.equalsIgnoreCase("true")) {
-																if (Bukkit.getPluginManager()
-																		.getPlugin("CombatTagPlus") != null) {
-																	PlayerCombatTagEvent event = new PlayerCombatTagEvent(
-																			player, player, maxtime * 1000);
-																	Bukkit.getPluginManager().callEvent(event);
-																}
-															} */
+															/*
+															 * if (Api.
+															 * getConfigString(
+															 * "RankQuestOptions.TagPlayer")
+															 * .equalsIgnoreCase
+															 * ("true")) { if
+															 * (Bukkit.
+															 * getPluginManager(
+															 * ) .getPlugin(
+															 * "CombatTagPlus")
+															 * != null) {
+															 * PlayerCombatTagEvent
+															 * event = new
+															 * PlayerCombatTagEvent(
+															 * player, player,
+															 * maxtime * 1000);
+															 * Bukkit.
+															 * getPluginManager(
+															 * ).callEvent(event
+															 * ); } }
+															 */
 															CountDown.put(player, Bukkit.getScheduler()
 																	.scheduleSyncRepeatingTask(plugin, new Runnable() {
 																		Player player = e.getPlayer();
@@ -512,15 +526,31 @@ public class RankQuestEvent implements Listener {
 																Slot.put(player,
 																		player.getInventory().getHeldItemSlot());
 																Time.put(player, maxtime);
-																/* if (Api.getConfigString("RankQuestOptions.TagPlayer")
-																		.equalsIgnoreCase("true")) {
-																	if (Bukkit.getPluginManager()
-																			.getPlugin("CombatTagPlus") != null) {
-																		PlayerCombatTagEvent event = new PlayerCombatTagEvent(
-																				player, player, maxtime * 1000);
-																		Bukkit.getPluginManager().callEvent(event);
-																	}
-																} */
+																/*
+																 * if (Api.
+																 * getConfigString
+																 * (
+																 * "RankQuestOptions.TagPlayer")
+																 * .equalsIgnoreCase
+																 * ("true")) {
+																 * if (Bukkit.
+																 * getPluginManager
+																 * ()
+																 * .getPlugin(
+																 * "CombatTagPlus")
+																 * != null) {
+																 * PlayerCombatTagEvent
+																 * event = new
+																 * PlayerCombatTagEvent(
+																 * player,
+																 * player,
+																 * maxtime *
+																 * 1000);
+																 * Bukkit.
+																 * getPluginManager
+																 * ().callEvent(
+																 * event); } }
+																 */
 																CountDown.put(player,
 																		Bukkit.getScheduler().scheduleSyncRepeatingTask(
 																				plugin, new Runnable() {

@@ -43,8 +43,8 @@ public class Api {
 			return false;
 		}
 	}
-	
-	public static void tagPlayer (Player player) {
+
+	public static void tagPlayer(Player player) {
 		if (Bukkit.getPluginManager().getPlugin("CombatTagPlus") != null) {
 			CombatTagPlus ct = CombatTagPlus.getPlugin(CombatTagPlus.class);
 			if (ct.getTagManager().isTagged(player.getUniqueId())) {
@@ -54,7 +54,7 @@ public class Api {
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public static ItemStack getItemInHand(Player player) {
 		if (getVersion() >= 191) {
@@ -170,7 +170,11 @@ public class Api {
 			if (b.length >= 2)
 				arg = arg.replace(b[1], "");
 		}
-		return Integer.parseInt(arg);
+		if (isInt(arg)) {
+			return Integer.parseInt(arg);
+		} else {
+			return null;
+		}
 	}
 
 	public static String getString(String Argument, ItemStack item, String Msg) {
@@ -260,12 +264,12 @@ public class Api {
 		String wg = Api.getConfigString("RankQuestOptions.CheckWorldGuard");
 		String bl = Api.getConfigString("RankQuestOptions.CheckBlacklist");
 		String pvp = Api.getConfigString("RankQuestOptions.PvPFlag");
-		String prefix = Api.getMessageString("Messages.Prefix");
 		if (wg.equalsIgnoreCase("true") && f.equalsIgnoreCase("true")) {
 			if (factions != null && worldguard != null) {
 				if (factions.getDescription().getAuthors().contains("drtshock")) {
 					if (bl.equalsIgnoreCase("true")) {
-						if ((WorldGuard.isInRegion(player) || FactionsUUID.isInWarzone(player)) && WorldGuard.notInRegion(player)) {
+						if ((WorldGuard.isInRegion(player) || FactionsUUID.isInWarzone(player))
+								&& WorldGuard.notInRegion(player)) {
 							if (pvp.equalsIgnoreCase("true")) {
 								if (WorldGuard.allowsPVP(player)) {
 									return true;
@@ -290,9 +294,11 @@ public class Api {
 					}
 				}
 				if (factions.getDescription().getWebsite() != null) {
-					if (factions.getDescription().getWebsite().equalsIgnoreCase("https://www.massivecraft.com/factions")) {
+					if (factions.getDescription().getWebsite()
+							.equalsIgnoreCase("https://www.massivecraft.com/factions")) {
 						if (bl.equalsIgnoreCase("true")) {
-							if ((WorldGuard.isInRegion(player) || FactionsSupport.isInWarzone(player)) && WorldGuard.notInRegion(player)) {
+							if ((WorldGuard.isInRegion(player) || FactionsSupport.isInWarzone(player))
+									&& WorldGuard.notInRegion(player)) {
 								if (pvp.equalsIgnoreCase("true")) {
 									if (WorldGuard.allowsPVP(player)) {
 										return true;
@@ -379,31 +385,11 @@ public class Api {
 			}
 		}
 		if (wg.equalsIgnoreCase("false") && f.equalsIgnoreCase("false")) {
-			if (worldguard != null) {
-				if (bl.equalsIgnoreCase("true")) {
-					System.out.println(
-							Api.color(prefix + "You have to enable worldguard checking to use blacklist checking!"));
-					return false;
-				} else if (bl.equalsIgnoreCase("false")) {
-					if (pvp.equalsIgnoreCase("true")) {
-						if (WorldGuard.allowsPVP(player)) {
-							return true;
-						}
-					} else {
-						System.out.println(Api.color(prefix + "Please at least enable some form of region checking!"));
-						return false;
-					}
-				} else {
-					System.out.println(Api.color(prefix
-							+ "Please at least enable some form of region checking! (How the hell did you get to this line even?!)"));
-					return false;
-				}
-			}
-			return false;
+			return true;
 		}
 		return false;
 	}
-	
+
 	public static boolean canBreakBlock(Player player, Block block) {
 		Plugin factions = Bukkit.getServer().getPluginManager().getPlugin("Factions");
 		if (factions != null) {
