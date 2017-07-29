@@ -1,0 +1,11 @@
+/bin/
+
+/.git/
+
+/.settings/
+
+*.txt
+
+*.classpath
+
+*.project
