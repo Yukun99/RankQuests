@@ -1,7 +1,6 @@
 package me.Yukun.RankQuests;
 
 import java.util.List;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,13 +12,6 @@ import org.bukkit.plugin.Plugin;
 
 import me.Yukun.RankQuests.MultiSupport.FactionsSupport;
 import me.Yukun.RankQuests.MultiSupport.FactionsUUID;
-import me.Yukun.RankQuests.MultiSupport.NMS_v1_10_R1;
-import me.Yukun.RankQuests.MultiSupport.NMS_v1_7_R4;
-import me.Yukun.RankQuests.MultiSupport.NMS_v1_8_R1;
-import me.Yukun.RankQuests.MultiSupport.NMS_v1_8_R2;
-import me.Yukun.RankQuests.MultiSupport.NMS_v1_8_R3;
-import me.Yukun.RankQuests.MultiSupport.NMS_v1_9_R1;
-import me.Yukun.RankQuests.MultiSupport.NMS_v1_9_R2;
 import me.Yukun.RankQuests.MultiSupport.WorldGuard;
 import net.minelink.ctplus.CombatTagPlus;
 
@@ -189,66 +181,6 @@ public class Api {
 				arg = arg.replace(b[1], "");
 		}
 		return arg;
-	}
-
-	public static ItemStack addGlow(ItemStack item) {
-		if (getVersion() == 1101) {
-			return NMS_v1_10_R1.addGlow(item);
-		}
-		if (getVersion() == 192) {
-			return NMS_v1_9_R2.addGlow(item);
-		}
-		if (getVersion() == 191) {
-			return NMS_v1_9_R1.addGlow(item);
-		}
-		if (getVersion() == 183) {
-			return NMS_v1_8_R3.addGlow(item);
-		}
-		if (getVersion() == 182) {
-			return NMS_v1_8_R2.addGlow(item);
-		}
-		if (getVersion() == 181) {
-			return NMS_v1_8_R1.addGlow(item);
-		}
-		if (getVersion() == 174) {
-			return NMS_v1_7_R4.addGlow(item);
-		} else {
-			Bukkit.getLogger().log(Level.SEVERE, "&bRank&eQuests&f >> &cYour server is too far out of date. "
-					+ "Please update or remove this plugin to stop further Errors.");
-			return item;
-		}
-	}
-
-	public static ItemStack addGlow(ItemStack item, boolean toggle) {
-		if (toggle) {
-			if (getVersion() == 1101) {
-				return NMS_v1_10_R1.addGlow(item);
-			}
-			if (getVersion() == 192) {
-				return NMS_v1_9_R2.addGlow(item);
-			}
-			if (getVersion() == 191) {
-				return NMS_v1_9_R1.addGlow(item);
-			}
-			if (getVersion() == 183) {
-				return NMS_v1_8_R3.addGlow(item);
-			}
-			if (getVersion() == 182) {
-				return NMS_v1_8_R2.addGlow(item);
-			}
-			if (getVersion() == 181) {
-				return NMS_v1_8_R1.addGlow(item);
-			}
-			if (getVersion() == 174) {
-				return NMS_v1_7_R4.addGlow(item);
-			} else {
-				Bukkit.getLogger().log(Level.SEVERE, "&bSpace&eFlares&f >> &cYour server is too far out of date. "
-						+ "Please update or remove this plugin to stop further Errors.");
-				return item;
-			}
-		} else {
-			return item;
-		}
 	}
 
 	public static boolean hasFactions() {
