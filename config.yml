@@ -39,6 +39,8 @@ RankQuestOptions:
     - ''
     - '&c&lWARNING: &r&7If you leave the &cWarzone&7'
     - '&7at any time, the quest timer resets.'
+  #Whether to drop the item on disconnect.
+  DropOnDC: "true"
 
   ##########################
   # Countdown item options #

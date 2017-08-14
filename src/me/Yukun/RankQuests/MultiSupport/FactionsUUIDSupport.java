@@ -1,6 +1,5 @@
 package me.Yukun.RankQuests.MultiSupport;
 
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.massivecraft.factions.Board;
@@ -11,7 +10,7 @@ import com.massivecraft.factions.struct.Relation;
 
 import me.Yukun.RankQuests.Api;
 
-public class FactionsUUID {
+public class FactionsUUIDSupport {
 	public static boolean isFriendly(Player player, Player other){
 		Faction p = FPlayers.getInstance().getByPlayer(player).getFaction();
 		Faction o = FPlayers.getInstance().getByPlayer(other).getFaction();
@@ -28,15 +27,6 @@ public class FactionsUUID {
 			return true;
 		}
 		if(FPlayers.getInstance().getByPlayer(P).isInAllyTerritory()){
-			return true;
-		}
-		return false;
-	}
-	public static boolean canBreakBlock(Player player, Block block){
-		Faction P = FPlayers.getInstance().getByPlayer(player).getFaction();
-		FLocation loc = new FLocation(block.getLocation());
-		Faction B = Board.getInstance().getFactionAt(loc);
-		if(Api.removeColor(B.getTag()).equalsIgnoreCase("Wilderness")||P==B){
 			return true;
 		}
 		return false;

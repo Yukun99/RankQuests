@@ -30,6 +30,9 @@ public class SettingsManager {
 	
 	FileConfiguration redeems;
 	File rfile;
+	
+	FileConfiguration loggers;
+	File lfile;
 
 	public void setup(Plugin p) {
 		if (!p.getDataFolder().exists()) {
@@ -71,6 +74,18 @@ public class SettingsManager {
          	}
 		}
 		redeems = YamlConfiguration.loadConfiguration(rfile);
+		
+		lfile = new File(p.getDataFolder(), "Loggers.yml");
+		if (!lfile.exists()) {
+			try{
+        		File en = new File(p.getDataFolder(), "/Loggers.yml");
+         		InputStream E = getClass().getResourceAsStream("/Loggers.yml");
+         		copyFile(E, en);
+         	}catch (Exception e) {
+         		e.printStackTrace();
+         	}
+		}
+		redeems = YamlConfiguration.loadConfiguration(lfile);
 	}
 
 	public FileConfiguration getConfig() {
@@ -83,6 +98,10 @@ public class SettingsManager {
 	
 	public FileConfiguration getRedeems() {
 		return redeems;
+	}
+	
+	public FileConfiguration getLoggers() {
+		return loggers;
 	}
 
 	public void saveConfig() {
@@ -108,6 +127,14 @@ public class SettingsManager {
 			Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save Redeem.yml!");
 		}
 	}
+	
+	public void saveLoggers() {
+		try {
+			loggers.save(lfile);
+		} catch (IOException e) {
+			Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save Loggers.yml!");
+		}
+	}
 
 	public void reloadConfig() {
 		config = YamlConfiguration.loadConfiguration(cfile);
@@ -119,6 +146,10 @@ public class SettingsManager {
 	
 	public void reloadRedeems() {
 		redeems = YamlConfiguration.loadConfiguration(rfile);
+	}
+	
+	public void reloadLoggers() {
+		loggers = YamlConfiguration.loadConfiguration(lfile);
 	}
 
 	public PluginDescriptionFile getDesc() {

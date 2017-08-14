@@ -128,25 +128,12 @@ public class RankQuestEvent implements Listener {
 															Slot.put(player, player.getInventory().getHeldItemSlot());
 															Time.put(player, maxtime);
 															/*
-															 * if (Api.
-															 * getConfigString(
-															 * "RankQuestOptions.TagPlayer")
-															 * .equalsIgnoreCase
-															 * ("true")) { if
-															 * (Bukkit.
-															 * getPluginManager(
-															 * ) .getPlugin(
-															 * "CombatTagPlus")
-															 * != null) {
-															 * PlayerCombatTagEvent
-															 * event = new
-															 * PlayerCombatTagEvent(
-															 * player, player,
-															 * maxtime * 1000);
-															 * Bukkit.
-															 * getPluginManager(
-															 * ).callEvent(event
-															 * ); } }
+															 * if (Api. getConfigString( "RankQuestOptions.TagPlayer")
+															 * .equalsIgnoreCase ("true")) { if (Bukkit.
+															 * getPluginManager( ) .getPlugin( "CombatTagPlus") != null)
+															 * { PlayerCombatTagEvent event = new PlayerCombatTagEvent(
+															 * player, player, maxtime * 1000); Bukkit.
+															 * getPluginManager( ).callEvent(event ); } }
 															 */
 															CountDown.put(player, Bukkit.getScheduler()
 																	.scheduleSyncRepeatingTask(plugin, new Runnable() {
@@ -168,14 +155,14 @@ public class RankQuestEvent implements Listener {
 																						ItemMeta newmeta = newitem
 																								.getItemMeta();
 																						newname = Api.color(Api
-																								.replacePHolders(
-																										Api.getConfigString(
+																								.replacePHolders(Api
+																										.getConfigString(
 																												"RankQuestOptions.CdName"),
 																										player,
 																										Rank.get(
 																												player))
-																								.replace("%time%",
-																										Api.getConfigString(
+																								.replace("%time%", Api
+																										.getConfigString(
 																												"RankQuestOptions.Ranks."
 																														+ Rank.get(
 																																player)
@@ -198,8 +185,8 @@ public class RankQuestEvent implements Listener {
 																								.setItem(slot, newitem);
 																						for (String begin : queststart) {
 																							player.sendMessage(
-																									Api.color(
-																											Api.replacePHolders(
+																									Api.color(Api
+																											.replacePHolders(
 																													begin,
 																													player,
 																													Rank.get(
@@ -247,8 +234,8 @@ public class RankQuestEvent implements Listener {
 																								.getStringList(
 																										"RankQuestOptions.CdLore")) {
 																							questitemoldlore
-																									.add(Api.color(
-																											Api.replacePHolders(
+																									.add(Api.color(Api
+																											.replacePHolders(
 																													line,
 																													player,
 																													Rank.get(
@@ -363,8 +350,8 @@ public class RankQuestEvent implements Listener {
 																														player)
 																												+ ".Voucher.Amount"))) {
 																							int amount = Integer
-																									.parseInt(
-																											Api.getConfigString(
+																									.parseInt(Api
+																											.getConfigString(
 																													"RankQuestOptions.Ranks."
 																															+ Rank.get(
 																																	player)
@@ -527,29 +514,14 @@ public class RankQuestEvent implements Listener {
 																		player.getInventory().getHeldItemSlot());
 																Time.put(player, maxtime);
 																/*
-																 * if (Api.
-																 * getConfigString
-																 * (
-																 * "RankQuestOptions.TagPlayer")
-																 * .equalsIgnoreCase
-																 * ("true")) {
-																 * if (Bukkit.
-																 * getPluginManager
-																 * ()
-																 * .getPlugin(
-																 * "CombatTagPlus")
-																 * != null) {
-																 * PlayerCombatTagEvent
-																 * event = new
-																 * PlayerCombatTagEvent(
-																 * player,
-																 * player,
-																 * maxtime *
-																 * 1000);
-																 * Bukkit.
-																 * getPluginManager
-																 * ().callEvent(
-																 * event); } }
+																 * if (Api. getConfigString (
+																 * "RankQuestOptions.TagPlayer") .equalsIgnoreCase
+																 * ("true")) { if (Bukkit. getPluginManager ()
+																 * .getPlugin( "CombatTagPlus") != null) {
+																 * PlayerCombatTagEvent event = new
+																 * PlayerCombatTagEvent( player, player, maxtime *
+																 * 1000); Bukkit. getPluginManager ().callEvent( event);
+																 * } }
 																 */
 																CountDown.put(player,
 																		Bukkit.getScheduler().scheduleSyncRepeatingTask(
@@ -576,14 +548,13 @@ public class RankQuestEvent implements Listener {
 																											1);
 																									ItemMeta newmeta = newitem
 																											.getItemMeta();
-																									newname = Api
-																											.color(Api
-																													.replacePHolders(
-																															Api.getConfigString(
-																																	"RankQuestOptions.CdName"),
-																															player,
-																															Rank.get(
-																																	player))
+																									newname = Api.color(
+																											Api.replacePHolders(
+																													Api.getConfigString(
+																															"RankQuestOptions.CdName"),
+																													player,
+																													Rank.get(
+																															player))
 																													.replace(
 																															"%time%",
 																															Api.getConfigString(
@@ -595,9 +566,9 @@ public class RankQuestEvent implements Listener {
 																											.getConfig()
 																											.getStringList(
 																													"RankQuestOptions.CdLore")) {
-																										dlore.add(
-																												Api.color(
-																														Api.replacePHolders(
+																										dlore.add(Api
+																												.color(Api
+																														.replacePHolders(
 																																line,
 																																player,
 																																Rank.get(
@@ -785,8 +756,8 @@ public class RankQuestEvent implements Listener {
 																													slot,
 																													new ItemStack(
 																															Material.AIR));
-																									if (Api.isInt(
-																											Api.getConfigString(
+																									if (Api.isInt(Api
+																											.getConfigString(
 																													"RankQuestOptions.Ranks."
 																															+ Rank.get(
 																																	player)
@@ -1039,28 +1010,60 @@ public class RankQuestEvent implements Listener {
 	}
 
 	@EventHandler
-	public void playerQuitEvent(PlayerQuitEvent e) {
-		if (Active.get(e.getPlayer()) == true) {
-			Player player = e.getPlayer();
+	public void loggerJoinEvent(PlayerJoinEvent e) {
+		Player player = e.getPlayer();
+		if (Main.settings.getLoggers().getConfigurationSection("loggers").getKeys(false).contains(player.getName())) {
+			int slot = Integer.parseInt(Api.getLoggersString("Loggers." + player.getName() + ".Slot"));
 			ItemStack questitem = new ItemStack(
 					Material.getMaterial(Api.getConfigString("RankQuestOptions.QuestItemType")), 1);
 			ItemMeta questitemmeta = questitem.getItemMeta();
-			questitemmeta.setDisplayName(Api.color(
-					Api.replacePHolders(Api.getConfigString("RankQuestOptions.CdName"), player, Rank.get(player))));
+			questitemmeta.setDisplayName(Api.color(Api.replacePHolders(Api.getConfigString("RankQuestOptions.CdName"),
+					player, Api.getLoggersString("loggers." + player.getName() + ".Rank"))));
 			ArrayList<String> lore = new ArrayList<String>();
 			for (String line : Main.settings.getConfig().getStringList("Lore")) {
-				lore.add(Api.color(Api.replacePHolders(line, player, Rank.get(player))));
+				lore.add(Api.color(Api.replacePHolders(line, player,
+						Api.getLoggersString("loggers." + player.getName() + ".Rank"))));
 			}
 			questitemmeta.setLore(lore);
 			questitem.setItemMeta(questitemmeta);
-			if (questitem != null) {
-				player.getInventory().setItem(Slot.get(player), questitem);
-				Bukkit.getScheduler().cancelTask(CountDown.get(player));
-				CountDown.remove(player);
-				Active.put(player, false);
-				Slot.remove(player);
-				Time.remove(player);
+			if (Api.getConfigString("RankQuestOptions.DropOnDC").equalsIgnoreCase("false")) {
+				player.getInventory().setItem(slot, questitem);
+			} else {
+				player.getInventory().setItem(slot, new ItemStack(Material.AIR));
 			}
+			Api.setLoggersString(("Loggers." + player.getName()), null);
+			return;
+		}
+	}
+
+	@EventHandler
+	public void playerQuitEvent(PlayerQuitEvent e) {
+		if (Active.get(e.getPlayer()) == true) {
+			Player player = e.getPlayer();
+			Bukkit.getScheduler().cancelTask(CountDown.get(player));
+			Api.setConfigString(("loggers." + player.getName() + ".Slot"), (Slot.get(player) + ""));
+			Api.setConfigString(("loggers." + player.getName() + ".Rank"), Rank.get(player));
+			if (Api.getConfigString("RankQuestOptions.DropOnDC").equalsIgnoreCase("true")) {
+				ItemStack questitem = new ItemStack(
+						Material.getMaterial(Api.getConfigString("RankQuestOptions.QuestItemType")), 1);
+				ItemMeta questitemmeta = questitem.getItemMeta();
+				questitemmeta.setDisplayName(Api.color(
+						Api.replacePHolders(Api.getConfigString("RankQuestOptions.CdName"), player, Rank.get(player))));
+				ArrayList<String> lore = new ArrayList<String>();
+				for (String line : Main.settings.getConfig().getStringList("Lore")) {
+					lore.add(Api.color(Api.replacePHolders(line, player, Rank.get(player))));
+				}
+				questitemmeta.setLore(lore);
+				questitem.setItemMeta(questitemmeta);
+				player.getWorld().dropItemNaturally(player.getLocation(), questitem);
+			} else {
+				return;
+			}
+			CountDown.remove(player);
+			Active.put(player, false);
+			Slot.remove(player);
+			Time.remove(player);
+			Rank.remove(player);
 		}
 	}
 

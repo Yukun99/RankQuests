@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import me.Yukun.RankQuests.MultiSupport.FactionsSupport;
-import me.Yukun.RankQuests.MultiSupport.FactionsUUID;
+import me.Yukun.RankQuests.MultiSupport.FactionsUUIDSupport;
+import me.Yukun.RankQuests.MultiSupport.LegacyFactionsSupport;
 import me.Yukun.RankQuests.MultiSupport.WorldGuard;
 import net.minelink.ctplus.CombatTagPlus;
 
@@ -56,6 +56,11 @@ public class Api {
 		}
 	}
 
+	public static void setLoggersString(String path, String msg) {
+		Main.settings.getLoggers().set(path, msg);
+		Main.settings.saveLoggers();
+	}
+	
 	public static void setConfigString(String path, String msg) {
 		Main.settings.getConfig().set(path, msg);
 		Main.settings.saveConfig();
@@ -137,6 +142,11 @@ public class Api {
 		String msg = Main.settings.getRedeems().getString(path);
 		return msg;
 	}
+	
+	public static String getLoggersString(String path) {
+		String msg = Main.settings.getLoggers().getString(path);
+		return msg;
+	}
 
 	public static String replacePHolders(String msg, Player player, String rank) {
 		return msg
@@ -183,6 +193,12 @@ public class Api {
 		return arg;
 	}
 
+	public static boolean hasLegacyFactions() {
+		if (Bukkit.getServer().getPluginManager().getPlugin("LegacyFactions") != null)
+			return true;
+		return false;
+	}
+
 	public static boolean hasFactions() {
 		if (Bukkit.getServer().getPluginManager().getPlugin("Factions") != null)
 			return true;
@@ -190,46 +206,24 @@ public class Api {
 	}
 
 	public static boolean isInWarzone(Player player) {
-		Plugin factions = Bukkit.getServer().getPluginManager().getPlugin("Factions");
+		Plugin factions = null;
+		if (hasFactions()) {
+			factions = Bukkit.getServer().getPluginManager().getPlugin("Factions");
+		}
+		if (hasLegacyFactions()) {
+			factions = Bukkit.getServer().getPluginManager().getPlugin("LegacyFactions");
+		}
 		Plugin worldguard = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 		String f = Api.getConfigString("RankQuestOptions.CheckWarzone");
 		String wg = Api.getConfigString("RankQuestOptions.CheckWorldGuard");
 		String bl = Api.getConfigString("RankQuestOptions.CheckBlacklist");
 		String pvp = Api.getConfigString("RankQuestOptions.PvPFlag");
 		if (wg.equalsIgnoreCase("true") && f.equalsIgnoreCase("true")) {
-			if (factions != null && worldguard != null) {
-				if (factions.getDescription().getAuthors().contains("drtshock")) {
-					if (bl.equalsIgnoreCase("true")) {
-						if ((WorldGuard.isInRegion(player) || FactionsUUID.isInWarzone(player))
-								&& WorldGuard.notInRegion(player)) {
-							if (pvp.equalsIgnoreCase("true")) {
-								if (WorldGuard.allowsPVP(player)) {
-									return true;
-								} else {
-									return false;
-								}
-							}
-							return true;
-						}
-					}
-					if (bl.equalsIgnoreCase("false")) {
-						if (WorldGuard.isInRegion(player) && FactionsUUID.isInWarzone(player)) {
-							if (pvp.equalsIgnoreCase("true")) {
-								if (WorldGuard.allowsPVP(player)) {
-									return true;
-								} else {
-									return false;
-								}
-							}
-							return true;
-						}
-					}
-				}
-				if (factions.getDescription().getWebsite() != null) {
-					if (factions.getDescription().getWebsite()
-							.equalsIgnoreCase("https://www.massivecraft.com/factions")) {
+			if ((hasFactions() || hasLegacyFactions()) && worldguard != null) {
+				if (hasFactions()) {
+					if (factions.getDescription().getAuthors().contains("drtshock")) {
 						if (bl.equalsIgnoreCase("true")) {
-							if ((WorldGuard.isInRegion(player) || FactionsSupport.isInWarzone(player))
+							if ((WorldGuard.isInRegion(player) || FactionsUUIDSupport.isInWarzone(player))
 									&& WorldGuard.notInRegion(player)) {
 								if (pvp.equalsIgnoreCase("true")) {
 									if (WorldGuard.allowsPVP(player)) {
@@ -242,7 +236,7 @@ public class Api {
 							}
 						}
 						if (bl.equalsIgnoreCase("false")) {
-							if (WorldGuard.isInRegion(player) || FactionsSupport.isInWarzone(player)) {
+							if (WorldGuard.isInRegion(player) && FactionsUUIDSupport.isInWarzone(player)) {
 								if (pvp.equalsIgnoreCase("true")) {
 									if (WorldGuard.allowsPVP(player)) {
 										return true;
@@ -252,6 +246,62 @@ public class Api {
 								}
 								return true;
 							}
+						}
+					}
+					if (factions.getDescription().getWebsite() != null) {
+						if (factions.getDescription().getWebsite()
+								.equalsIgnoreCase("https://www.massivecraft.com/factions")) {
+							if (bl.equalsIgnoreCase("true")) {
+								if ((WorldGuard.isInRegion(player) || FactionsSupport.isInWarzone(player))
+										&& WorldGuard.notInRegion(player)) {
+									if (pvp.equalsIgnoreCase("true")) {
+										if (WorldGuard.allowsPVP(player)) {
+											return true;
+										} else {
+											return false;
+										}
+									}
+									return true;
+								}
+							}
+							if (bl.equalsIgnoreCase("false")) {
+								if (WorldGuard.isInRegion(player) || FactionsSupport.isInWarzone(player)) {
+									if (pvp.equalsIgnoreCase("true")) {
+										if (WorldGuard.allowsPVP(player)) {
+											return true;
+										} else {
+											return false;
+										}
+									}
+									return true;
+								}
+							}
+						}
+					}
+				} else if (hasLegacyFactions()) {
+					if (bl.equalsIgnoreCase("true")) {
+						if ((WorldGuard.isInRegion(player) || LegacyFactionsSupport.isInWarzone(player))
+								&& WorldGuard.notInRegion(player)) {
+							if (pvp.equalsIgnoreCase("true")) {
+								if (WorldGuard.allowsPVP(player)) {
+									return true;
+								} else {
+									return false;
+								}
+							}
+							return true;
+						}
+					}
+					if (bl.equalsIgnoreCase("false")) {
+						if (WorldGuard.isInRegion(player) || LegacyFactionsSupport.isInWarzone(player)) {
+							if (pvp.equalsIgnoreCase("true")) {
+								if (WorldGuard.allowsPVP(player)) {
+									return true;
+								} else {
+									return false;
+								}
+							}
+							return true;
 						}
 					}
 				}
@@ -284,24 +334,10 @@ public class Api {
 			}
 		}
 		if (wg.equalsIgnoreCase("false") && f.equalsIgnoreCase("true")) {
-			if (factions != null) {
-				if (factions.getDescription().getAuthors().contains("drtshock")) {
-					if (FactionsUUID.isInWarzone(player)) {
-						if (pvp.equalsIgnoreCase("true")) {
-							if (WorldGuard.allowsPVP(player)) {
-								return true;
-							}
-						}
-						return true;
-					}
-					if (!FactionsUUID.inTerritory(player)) {
-						return false;
-					}
-				}
-				if (factions.getDescription().getWebsite() != null) {
-					if (factions.getDescription().getWebsite()
-							.equalsIgnoreCase("https://www.massivecraft.com/factions")) {
-						if (FactionsSupport.isInWarzone(player)) {
+			if (hasFactions() || hasLegacyFactions()) {
+				if (hasFactions()) {
+					if (factions.getDescription().getAuthors().contains("drtshock")) {
+						if (FactionsUUIDSupport.isInWarzone(player)) {
 							if (pvp.equalsIgnoreCase("true")) {
 								if (WorldGuard.allowsPVP(player)) {
 									return true;
@@ -309,9 +345,37 @@ public class Api {
 							}
 							return true;
 						}
-						if (!FactionsSupport.inTerritory(player)) {
+						if (!FactionsUUIDSupport.inTerritory(player)) {
 							return false;
 						}
+					}
+					if (factions.getDescription().getWebsite() != null) {
+						if (factions.getDescription().getWebsite()
+								.equalsIgnoreCase("https://www.massivecraft.com/factions")) {
+							if (FactionsSupport.isInWarzone(player)) {
+								if (pvp.equalsIgnoreCase("true")) {
+									if (WorldGuard.allowsPVP(player)) {
+										return true;
+									}
+								}
+								return true;
+							}
+							if (!FactionsSupport.inTerritory(player)) {
+								return false;
+							}
+						}
+					}
+				} else if (hasLegacyFactions()) {
+					if (LegacyFactionsSupport.isInWarzone(player)) {
+						if (pvp.equalsIgnoreCase("true")) {
+							if (WorldGuard.allowsPVP(player)) {
+								return true;
+							}
+						}
+						return true;
+					}
+					if (!LegacyFactionsSupport.inTerritory(player)) {
+						return false;
 					}
 				}
 			}
@@ -322,46 +386,36 @@ public class Api {
 		return false;
 	}
 
-	public static boolean canBreakBlock(Player player, Block block) {
-		Plugin factions = Bukkit.getServer().getPluginManager().getPlugin("Factions");
-		if (factions != null) {
-			if (player != null) {
+	public static boolean inTerritory(Player player) {
+		Plugin factions = null;
+		if (hasFactions()) {
+			factions = Bukkit.getServer().getPluginManager().getPlugin("Factions");
+		}
+		if (hasLegacyFactions()) {
+			factions = Bukkit.getServer().getPluginManager().getPlugin("LegacyFactions");
+		}
+		if (hasFactions() || hasLegacyFactions()) {
+			if (hasFactions()) {
 				if (factions.getDescription().getAuthors().contains("drtshock")) {
-					if (FactionsUUID.canBreakBlock(player, block))
+					if (FactionsUUIDSupport.inTerritory(player))
 						return true;
-					if (!FactionsUUID.canBreakBlock(player, block))
+					if (!FactionsUUIDSupport.inTerritory(player))
 						return false;
 				}
 				if (factions.getDescription().getWebsite() != null) {
 					if (factions.getDescription().getWebsite()
 							.equalsIgnoreCase("https://www.massivecraft.com/factions")) {
-						if (FactionsSupport.canBreakBlock(player, block))
+						if (FactionsSupport.inTerritory(player))
 							return true;
-						if (!FactionsSupport.canBreakBlock(player, block))
+						if (!FactionsSupport.inTerritory(player))
 							return false;
 					}
 				}
-			}
-		}
-		return true;
-	}
-
-	public static boolean inTerritory(Player player) {
-		Plugin factions = Bukkit.getServer().getPluginManager().getPlugin("Factions");
-		if (factions != null) {
-			if (factions.getDescription().getAuthors().contains("drtshock")) {
-				if (FactionsUUID.inTerritory(player))
+			} else if (hasLegacyFactions()) {
+				if (LegacyFactionsSupport.inTerritory(player))
 					return true;
-				if (!FactionsUUID.inTerritory(player))
+				if (!LegacyFactionsSupport.inTerritory(player))
 					return false;
-			}
-			if (factions.getDescription().getWebsite() != null) {
-				if (factions.getDescription().getWebsite().equalsIgnoreCase("https://www.massivecraft.com/factions")) {
-					if (FactionsSupport.inTerritory(player))
-						return true;
-					if (!FactionsSupport.inTerritory(player))
-						return false;
-				}
 			}
 		}
 		return false;
@@ -369,24 +423,37 @@ public class Api {
 
 	public static boolean isFriendly(Entity P, Entity O) {
 		if (P instanceof Player && O instanceof Player) {
-			Plugin factions = Bukkit.getServer().getPluginManager().getPlugin("Factions");
-			if (factions != null) {
+			Plugin factions = null;
+			if (hasFactions()) {
+				factions = Bukkit.getServer().getPluginManager().getPlugin("Factions");
+			}
+			if (hasLegacyFactions()) {
+				factions = Bukkit.getServer().getPluginManager().getPlugin("LegacyFactions");
+			}
+			if (hasFactions() || hasLegacyFactions()) {
 				Player player = (Player) P;
 				Player other = (Player) O;
-				if (factions.getDescription().getAuthors().contains("drtshock")) {
-					if (FactionsUUID.isFriendly(player, other))
-						return true;
-					if (!FactionsUUID.isFriendly(player, other))
-						return false;
-				}
-				if (factions.getDescription().getWebsite() != null) {
-					if (factions.getDescription().getWebsite()
-							.equalsIgnoreCase("https://www.massivecraft.com/factions")) {
-						if (FactionsSupport.isFriendly(player, other))
+				if (hasFactions()) {
+					if (factions.getDescription().getAuthors().contains("drtshock")) {
+						if (FactionsUUIDSupport.isFriendly(player, other))
 							return true;
-						if (!FactionsSupport.isFriendly(player, other))
+						if (!FactionsUUIDSupport.isFriendly(player, other))
 							return false;
 					}
+					if (factions.getDescription().getWebsite() != null) {
+						if (factions.getDescription().getWebsite()
+								.equalsIgnoreCase("https://www.massivecraft.com/factions")) {
+							if (FactionsSupport.isFriendly(player, other))
+								return true;
+							if (!FactionsSupport.isFriendly(player, other))
+								return false;
+						}
+					}
+				} else if (hasLegacyFactions()) {
+					if (LegacyFactionsSupport.isFriendly(player, other))
+						return true;
+					if (!LegacyFactionsSupport.isFriendly(player, other))
+						return false;
 				}
 			}
 		}

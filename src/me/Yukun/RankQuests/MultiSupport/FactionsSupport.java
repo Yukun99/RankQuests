@@ -1,7 +1,6 @@
 package me.Yukun.RankQuests.MultiSupport;
 
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.massivecraft.factions.Rel;
@@ -41,14 +40,6 @@ public class FactionsSupport {
 			return false;
 		}
 		if(player.isInOwnTerritory()){
-			return true;
-		}
-		return false;
-	}
-	public static boolean canBreakBlock(Player player, Block block){
-		Faction P = MPlayer.get(player).getFaction();
-		Faction B = BoardColl.get().getFactionAt(PS.valueOf(block.getLocation()));
-		if(Api.removeColor(B.getName()).equalsIgnoreCase("Wilderness")||P==B){
 			return true;
 		}
 		return false;
