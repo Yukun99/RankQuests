@@ -1011,28 +1011,40 @@ public class RankQuestEvent implements Listener {
 
 	@EventHandler
 	public void loggerJoinEvent(PlayerJoinEvent e) {
-		Player player = e.getPlayer();
-		if (Main.settings.getLoggers().getConfigurationSection("loggers").getKeys(false).contains(player.getName())) {
-			int slot = Integer.parseInt(Api.getLoggersString("Loggers." + player.getName() + ".Slot"));
-			ItemStack questitem = new ItemStack(
-					Material.getMaterial(Api.getConfigString("RankQuestOptions.QuestItemType")), 1);
-			ItemMeta questitemmeta = questitem.getItemMeta();
-			questitemmeta.setDisplayName(Api.color(Api.replacePHolders(Api.getConfigString("RankQuestOptions.CdName"),
-					player, Api.getLoggersString("loggers." + player.getName() + ".Rank"))));
-			ArrayList<String> lore = new ArrayList<String>();
-			for (String line : Main.settings.getConfig().getStringList("Lore")) {
-				lore.add(Api.color(Api.replacePHolders(line, player,
-						Api.getLoggersString("loggers." + player.getName() + ".Rank"))));
+		final Player player = e.getPlayer();
+		if (Main.settings.getLoggers().getConfigurationSection("Loggers").getKeys(false) != null) {
+			if (Main.settings.getLoggers().getConfigurationSection("Loggers").getKeys(false)
+					.contains(player.getName())) {
+				ItemStack questitem = new ItemStack(
+						Material.getMaterial(Api.getConfigString("RankQuestOptions.QuestItemType")), 1);
+				final int slot = Integer.parseInt(Api.getLoggersString("Loggers." + player.getName() + ".Slot"));
+				ItemMeta questitemmeta = questitem.getItemMeta();
+				questitemmeta.setDisplayName(Api.color(Api.replacePHolders(Api.getConfigString("RankQuestOptions.Name"),
+						player, Api.getLoggersString("Loggers." + player.getName() + ".Rank"))));
+				ArrayList<String> lore = new ArrayList<String>();
+				for (String line : Main.settings.getConfig().getStringList("RankQuestOptions.Lore")) {
+					lore.add(Api.color(Api.replacePHolders(line, player,
+							Api.getLoggersString("Loggers." + player.getName() + ".Rank"))));
+				}
+				questitemmeta.setLore(lore);
+				questitem.setItemMeta(questitemmeta);
+				final ItemStack questitem2 = questitem;
+				if (Api.getConfigString("RankQuestOptions.DropOnDC").equalsIgnoreCase("false")) {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+						public void run() {
+							player.getInventory().setItem(slot, questitem2);
+						}
+					}, 1);
+				} else {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+						public void run() {
+							player.getInventory().setItem(slot, new ItemStack(Material.AIR));
+						}
+					}, 1);
+				}
+				Api.setLoggersString(("Loggers." + player.getName()), null);
+				return;
 			}
-			questitemmeta.setLore(lore);
-			questitem.setItemMeta(questitemmeta);
-			if (Api.getConfigString("RankQuestOptions.DropOnDC").equalsIgnoreCase("false")) {
-				player.getInventory().setItem(slot, questitem);
-			} else {
-				player.getInventory().setItem(slot, new ItemStack(Material.AIR));
-			}
-			Api.setLoggersString(("Loggers." + player.getName()), null);
-			return;
 		}
 	}
 
@@ -1041,16 +1053,16 @@ public class RankQuestEvent implements Listener {
 		if (Active.get(e.getPlayer()) == true) {
 			Player player = e.getPlayer();
 			Bukkit.getScheduler().cancelTask(CountDown.get(player));
-			Api.setConfigString(("loggers." + player.getName() + ".Slot"), (Slot.get(player) + ""));
-			Api.setConfigString(("loggers." + player.getName() + ".Rank"), Rank.get(player));
+			Api.setLoggersString(("Loggers." + player.getName() + ".Slot"), (Slot.get(player) + ""));
+			Api.setLoggersString(("Loggers." + player.getName() + ".Rank"), Rank.get(player));
 			if (Api.getConfigString("RankQuestOptions.DropOnDC").equalsIgnoreCase("true")) {
 				ItemStack questitem = new ItemStack(
 						Material.getMaterial(Api.getConfigString("RankQuestOptions.QuestItemType")), 1);
 				ItemMeta questitemmeta = questitem.getItemMeta();
 				questitemmeta.setDisplayName(Api.color(
-						Api.replacePHolders(Api.getConfigString("RankQuestOptions.CdName"), player, Rank.get(player))));
+						Api.replacePHolders(Api.getConfigString("RankQuestOptions.Name"), player, Rank.get(player))));
 				ArrayList<String> lore = new ArrayList<String>();
-				for (String line : Main.settings.getConfig().getStringList("Lore")) {
+				for (String line : Main.settings.getConfig().getStringList("RankQuestOptions.Lore")) {
 					lore.add(Api.color(Api.replacePHolders(line, player, Rank.get(player))));
 				}
 				questitemmeta.setLore(lore);

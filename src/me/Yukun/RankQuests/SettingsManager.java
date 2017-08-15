@@ -85,7 +85,7 @@ public class SettingsManager {
          		e.printStackTrace();
          	}
 		}
-		redeems = YamlConfiguration.loadConfiguration(lfile);
+		loggers = YamlConfiguration.loadConfiguration(lfile);
 	}
 
 	public FileConfiguration getConfig() {
